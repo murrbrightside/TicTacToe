@@ -14,7 +14,7 @@ public class PlayingField {
     }
 
     //метод проверяющи состояние игры победа игрока или продолжение
-    public GameState GameState(int walkingPlayer) {
+    public GameState GameState() {
         int count = 0;
         ///поиск по строке кругов
         for (int i = 0; i < 3; i++) {
@@ -22,8 +22,7 @@ public class PlayingField {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == State.Circle) {
                     count++;
-                    if (count == 3 && walkingPlayer == 1) return GameState.WinFirst;
-                    if (count == 3 && walkingPlayer == 2) return GameState.WinSecond;
+                    if (count == 3) return GameState.WinSecond;
                 } else count--;
             }
         }
@@ -33,8 +32,7 @@ public class PlayingField {
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] == State.Cross) {
                     count++;
-                    if (count == 3 && walkingPlayer == 1) return GameState.WinFirst;
-                    if (count == 3 && walkingPlayer == 2) return GameState.WinSecond;
+                    if (count == 3) return GameState.WinFirst;
                 } else count--;
             }
         }
@@ -46,9 +44,7 @@ public class PlayingField {
             for (int j = 0; j < 3; j++) {
                 if (board[j][i] == State.Circle) {
                     count++;
-
-                    if (count == 3 && walkingPlayer == 1) return GameState.WinFirst;
-                    if (count == 3 && walkingPlayer == 2) return GameState.WinSecond;
+                    if (count == 3) return GameState.WinSecond;
                 } else count--;
             }
         }
@@ -58,8 +54,7 @@ public class PlayingField {
             for (int j = 0; j < 3; j++) {
                 if (board[j][i] == State.Cross) {
                     count++;
-                    if (count == 3 && walkingPlayer == 1) return GameState.WinFirst;
-                    if (count == 3 && walkingPlayer == 2) return GameState.WinSecond;
+                    if (count == 3) return GameState.WinFirst;
                 } else count--;
             }
         }
@@ -143,12 +138,12 @@ public class PlayingField {
 
             for (int j = 0; j < 3; j++) {
                 if (board[i][j] != State.Empty) count++; else break;
-                if (count == 9 && walkingPlayer == 1) return  GameState.Draw;
+                if (count == 9) return  GameState.Draw;
             }
         }
-        return GameState.Continue;
+        return GameState.Draw;
     }
-
+    //вспомогательные методы поиска кругов в цикле
 
     //совершения хода игрока
     public void moveMaker(int walkingPlayer, int positionI, int positionJ){

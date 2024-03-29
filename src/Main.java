@@ -59,22 +59,22 @@ public class Main extends JFrame implements ActionListener {
                 if (isXTurn) {
                     button.setText("X");
                     playingField.moveMaker(1, row, col); // Передача индексов строки и столбца
-                    playingField.GameState(1);
-                    if (playingField.GameState(1) == GameState.WinFirst) {
+                    playingField.GameState();
+                    if (playingField.GameState() == GameState.WinFirst) {
                         setTitle("CROSS WON");
                         for (int i = 0; i < 3; i++) {
                             for (int j = 0; j < 3; j++) {
                                 buttons[i][j].setEnabled(false);
                             }
                         }
-                    } if(playingField.GameState(1) == GameState.Draw){
+                    } if(playingField.GameState() == GameState.Draw){
                         setTitle("DRAW"); //ничья
                     }
 
                 } else {
                     button.setText("O");
-                    playingField.moveMaker(2, row, col); // Передача индексов строки и столбца
-                    if(playingField.GameState(2) == GameState.WinSecond){
+                    playingField.moveMaker(2,row, col); // Передача индексов строки и столбца
+                    if(playingField.GameState() == GameState.WinSecond){
                         setTitle("CIRCLE WON");
                         for (int i = 0; i < 3; i++) {
                             for (int j = 0; j < 3; j++) {
