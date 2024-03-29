@@ -1,13 +1,13 @@
 public class PlayingField {
 
-    State [] [] board;
+    String [] [] board;
     int movesMade = 0;
 
     public PlayingField(){
-        board = new State[3][3];
+        board = new String[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                board [i] [j] = State.Empty;
+                board [i] [j] = "State.Empty";
 
             }
         }
@@ -18,126 +18,70 @@ public class PlayingField {
         int count = 0;
         ///поиск по строке кругов
         for (int i = 0; i < 3; i++) {
-            count = 0;
-            for (int j = 0; j < 3; j++) {
-                if (board[i][j] == State.Circle) {
-                    count++;
-                    if (count == 3) return GameState.WinSecond;
-                } else count--;
+            if (board[i][1].equals(board[i][0]) && board[i][1].equals(board[i][2])
+            && board[i][1].equals("State.Circle")) {
+                return GameState.WinSecond;
+
             }
         }
         //Поиск по строке крестов
         for (int i = 0; i < 3; i++) {
-            count = 0;
-            for (int j = 0; j < 3; j++) {
-                if (board[i][j] == State.Cross) {
-                    count++;
-                    if (count == 3) return GameState.WinFirst;
-                } else count--;
+            if (board[i][1].equals(board[i][0]) && board[i][1].equals(board[i][2])
+            && board[i][1].equals("State.Cross")) {
+                return GameState.WinFirst;
+
             }
         }
 
 
         //поск по столбцам кругов
         for (int i = 0; i < 3; i++) {
-            count = 0;
-            for (int j = 0; j < 3; j++) {
-                if (board[j][i] == State.Circle) {
-                    count++;
-                    if (count == 3) return GameState.WinSecond;
-                } else count--;
+            if (board[1][i].equals(board[0][i]) && board[1][i].equals(board[2][i])
+                    && board[i][1].equals("State.Circle")) {
+                return GameState.WinSecond;
+
             }
         }
         //Поиск по столбцу крестов
         for (int i = 0; i < 3; i++) {
-            count = 0;
-            for (int j = 0; j < 3; j++) {
-                if (board[j][i] == State.Cross) {
-                    count++;
-                    if (count == 3) return GameState.WinFirst;
-                } else count--;
+            if (board[1][i].equals(board[0][i]) && board[1][i].equals(board[2][i])
+                    && board[i][1].equals("State.Cross")) {
+                return GameState.WinFirst;
+
             }
         }
         //диаганоль  налево круги
-        count = 0;
-        for (int i = 0; i < 3; i++) {
+        if (board[0][0].equals(board[1][1]) && board[1][1].equals(board[2][2]) &&
+                board[0][0].equals("State.Circle"))
+            return GameState.WinSecond;
 
-            for (int j = 0; j < 3; j++) {
-                if (i == j && board[i][j] == State.Circle) {
-                    count++;
-
-                    if (count == 3) return GameState.WinSecond;
-                }
-            }
-        }
         //диаганоль налево крестов
-        count = 0;
-        for (int i = 0; i < 3; i++) {
 
-            for (int j = 0; j < 3; j++) {
-                if (i == j && board[i][j] == State.Cross) {
-                    count++;
-                    if (count == 3 ) return GameState.WinFirst;
 
-                }
-
-            }
-        }
+        if (board[0][0].equals(board[1][1]) && board[1][1].equals(board[2][2]) &&
+                board[0][0].equals("State.Cross"))
+            return GameState.WinFirst;
 
 
         //диагональ справа круги
-        count = 0;
-        for (int i = 0; i < 3; i++) {
+        if (board[0][2].equals(board[1][1]) && board[0][2].equals(board[2][0]) &&
+                board[0][2].equals("State.Circle"))
+            return GameState.WinSecond;
 
-            for (int j = 0; j < 3; j++) {
-                if (i == 0 && j == 2 && board[i][j] == State.Circle) {
-                    count++;
-
-
-                }
-
-                if (i == 1 && j == 1 && board[i][j] == State.Circle) {
-                    count++;
-                }
-                if (i == 2 && j == 0 && board[i][j] == State.Circle) {
-                    count++;
-                }
-
-            }
-
-            if (count == 3) return GameState.WinSecond;
-
-        }
         //диагональ справа квадрат
-        count = 0;
-        for (int i = 0; i < 3; i++) {
 
-            for (int j = 0; j < 3; j++) {
-                if (i == 0 && j == 2 && board[i][j] == State.Cross) {
-                    count++;
+        if (board[0][2].equals(board[1][1]) && board[0][2].equals(board[2][0]) &&
+                board[0][2].equals("State.Cross"))
+            return GameState.WinFirst;
 
 
-                }
-
-                if (i == 1 && j == 1 && board[i][j] == State.Cross) {
-                    count++;
-                }
-                if (i == 2 && j == 0 && board[i][j] == State.Cross) {
-                    count++;
-                }
-
-            }
-
-            if (count == 3) return GameState.WinFirst;
-
-        }
 
         //Ничья
         count = 0;
         for (int i = 0; i < 3; i++) {
 
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] != State.Empty) count++; else break;
+                if (!board[i][j].equals("State.Empty") ) count++; else break;
                 if (count == 9) return  GameState.Draw;
             }
         }
@@ -147,13 +91,14 @@ public class PlayingField {
 
     //совершения хода игрока
     public void moveMaker(int walkingPlayer, int positionI, int positionJ){
-        if (walkingPlayer == 1 && board[positionI][positionJ] == State.Empty){
-            board[positionI][positionJ] = State.Cross;
+        if (walkingPlayer == 1 && board[positionI][positionJ].equals("State.Empty") ){
+            board[positionI][positionJ] = "State.Cross";
             movesMade++;
 
         }
-        else if (walkingPlayer == 2 && board[positionI][positionJ] == State.Empty){
-            board[positionI][positionJ] = State.Circle;
+        else if (walkingPlayer == 2 && board[positionI][positionJ].equals("State.Empty")){
+            board[positionI][positionJ] = "State.Circle";
+
             movesMade++;
 
         }
@@ -162,7 +107,7 @@ public class PlayingField {
     public void resetPlayingField(){
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                board[i][j] = State.Empty;
+                board[i][j] = "State.Empty";
             }
         }
     }
